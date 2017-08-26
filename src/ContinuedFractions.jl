@@ -10,9 +10,9 @@ module ContinuedFractions
 	function convergents(a::Vector{Int}, t::Type)
 		n_quotients = length(a)
 
-		p = Array(Int, n_quotients - 1)
-		q = Array(Int, n_quotients - 1)
-		c = Array(t, n_quotients)
+		p = Array{Int}(n_quotients - 1)
+		q = Array{Int}(n_quotients - 1)
+		c = Array{t}(n_quotients)
 
 		p0, q0 = a[1], 1
 		p[1], q[1] = a[2] * a[1] + 1, a[2]
@@ -49,13 +49,13 @@ module ContinuedFractions
 		tolerance, max_quotients = 10e-16, 500
 
 		input = x
-		q = Array(Int, max_quotients)
+		q = Array{Int}(max_quotients)
 
 		i, converged = 0, false
 
 		while !converged
 			i += 1
-			q[i] = ifloor(x)
+			q[i] = floor(Integer, x)
 			x = 1 / (x - q[i])
 			if abs(convergents(q)[i] - input) < tolerance
 				converged = true
